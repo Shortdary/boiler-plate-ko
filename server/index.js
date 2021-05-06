@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const config = require("./config/key");
 const app = express();
@@ -9,8 +8,8 @@ const port = 5000;
 const { auth } = require("./middleware/auth");
 const { User } = require("./models/User");
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 mongoose
   .connect(config.mongoURI, {
@@ -23,6 +22,10 @@ mongoose
   .catch((err) => console.log(err));
 
 app.get("/", (req, res) => res.send("Hello World! nihao kon~"));
+
+app.get("/api/hello", (req, res) => {
+  res.send("hihi~");
+});
 
 app.post("/api/users/register", (req, res) => {
   const user = new User(req.body);
